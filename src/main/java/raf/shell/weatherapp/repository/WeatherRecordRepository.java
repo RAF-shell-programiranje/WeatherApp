@@ -46,4 +46,8 @@ public interface WeatherRecordRepository extends JpaRepository<WeatherRecord, Lo
 
     @Query("SELECT w FROM WeatherRecord w WHERE w.location.country = :country OR w.location.locationName LIKE %:query%")
     Page<WeatherRecord> searchByCountryOrLocation(@Param("country") String country, @Param("query") String query, Pageable pageable);
+
+    @Query("SELECT w.location.country, COUNT(w), COUNT(DISTINCT w.location), AVG(w.temperatureCelsius), AVG(w.humidity), AVG(w.location.latitude), AVG(w.location.longitude) " +
+           "FROM WeatherRecord w GROUP BY w.location.country")
+    List<Object[]> findCountryStatistics();
 }

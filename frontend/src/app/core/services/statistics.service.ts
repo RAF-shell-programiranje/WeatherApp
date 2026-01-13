@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ConditionCount, CountryTemperature, DashboardStatistics, WeatherRecord } from '../models/weather.model';
+import { CountryStatistics } from '../models/country-statistics.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +31,9 @@ export class StatisticsService {
 
   getColdestLocations(limit: number = 10): Observable<WeatherRecord[]> {
     return this.http.get<WeatherRecord[]>(`${this.apiUrl}/coldest?limit=${limit}`);
+  }
+
+  getCountryStatistics(): Observable<CountryStatistics[]> {
+    return this.http.get<CountryStatistics[]>(`${this.apiUrl}/countries`);
   }
 }

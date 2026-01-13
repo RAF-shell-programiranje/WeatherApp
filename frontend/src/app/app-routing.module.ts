@@ -6,6 +6,10 @@ const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule)
+  },
+  {
+    path: 'map',
+    loadChildren: () => import('./features/map/map.module').then(m => m.MapModule)
   }
 ];
 

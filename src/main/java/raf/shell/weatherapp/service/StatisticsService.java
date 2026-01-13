@@ -61,4 +61,18 @@ public class StatisticsService {
                 .map(WeatherRecordDTO::fromEntity)
                 .collect(Collectors.toList());
     }
+
+    public List<CountryStatistics> getCountryStatistics() {
+        return weatherRecordRepository.findCountryStatistics().stream()
+                .map(arr -> CountryStatistics.builder()
+                        .country((String) arr[0])
+                        .recordCount((Long) arr[1])
+                        .locationCount((Long) arr[2])
+                        .averageTemperature((Double) arr[3])
+                        .averageHumidity((Double) arr[4])
+                        .latitude((Double) arr[5])
+                        .longitude((Double) arr[6])
+                        .build())
+                .collect(Collectors.toList());
+    }
 }

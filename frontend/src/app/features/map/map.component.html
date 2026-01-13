@@ -1,0 +1,123 @@
+<div class="map-page">
+  <!-- Header with navigation -->
+  <header class="map-header">
+    <div class="header-content">
+      <a routerLink="/dashboard" class="back-link">← Back to Dashboard</a>
+      <h1>World Weather Map</h1>
+      <p class="subtitle">Click on markers to view country weather statistics</p>
+    </div>
+  </header>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading country data...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-container">
+    <div class="error-icon">!</div>
+    <p>{{ error }}</p>
+    <a routerLink="/dashboard" class="btn btn-primary">Go to Dashboard</a>
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="!loading && !error" class="map-content">
+    <!-- Sidebar with country list -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>Countries ({{ countries.length }})</h2>
+      </div>
+
+      <!-- Legend -->
+      <div class="legend">
+        <h3>Temperature Legend</h3>
+        <div class="legend-items">
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #FF0000;"></span>
+            <span>30°C+</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #FF4500;"></span>
+            <span>25-30°C</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #FFA500;"></span>
+            <span>20-25°C</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #FFD700;"></span>
+            <span>15-20°C</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #ADFF2F;"></span>
+            <span>10-15°C</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #00CED1;"></span>
+            <span>5-10°C</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #1E90FF;"></span>
+            <span>0-5°C</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background-color: #0000FF;"></span>
+            <span>Below 0°C</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Selected Country Details -->
+      <div *ngIf="selectedCountry" class="selected-country">
+        <div class="selected-header">
+          <h3>{{ selectedCountry.country }}</h3>
+          <button (click)="clearSelection()" class="close-btn">×</button>
+        </div>
+        <div class="country-stats">
+          <div class="stat-row">
+            <span class="stat-label">Avg Temperature</span>
+            <span class="stat-value" [ngClass]="getTemperatureClass(selectedCountry.averageTemperature)">
+              {{ selectedCountry.averageTemperature | number:'1.1-1' }}°C
+            </span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Avg Humidity</span>
+            <span class="stat-value">{{ selectedCountry.averageHumidity | number:'1.0-0' }}%</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Weather Records</span>
+            <span class="stat-value">{{ selectedCountry.recordCount | number }}</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Locations</span>
+            <span class="stat-value">{{ selectedCountry.locationCount | number }}</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Coordinates</span>
+            <span class="stat-value">{{ selectedCountry.latitude | number:'1.2-2' }}, {{ selectedCountry.longitude | number:'1.2-2' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Country List -->
+      <div class="country-list">
+        <div
+          *ngFor="let country of countries"
+          class="country-item"
+          [class.active]="selectedCountry?.country === country.country"
+          (click)="selectCountry(country)">
+          <span class="country-name">{{ country.country }}</span>
+          <span class="country-temp" [ngClass]="getTemperatureClass(country.averageTemperature)">
+            {{ country.averageTemperature | number:'1.1-1' }}°C
+          </span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Map Container -->
+    <div class="map-container">
+      <div id="map"></div>
+    </div>
+  </div>
+</div>

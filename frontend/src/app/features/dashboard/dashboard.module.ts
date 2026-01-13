@@ -15,7 +15,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    ChartsModule
+    ChartsModule,
+    RouterModule
   ]
 })
 export class DashboardModule { }

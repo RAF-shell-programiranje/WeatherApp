@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import raf.shell.weatherapp.dto.ConditionCount;
+import raf.shell.weatherapp.dto.CountryStatistics;
 import raf.shell.weatherapp.dto.CountryTemperature;
 import raf.shell.weatherapp.dto.DashboardStatistics;
 import raf.shell.weatherapp.dto.WeatherRecordDTO;
@@ -43,5 +44,10 @@ public class StatisticsController {
     public ResponseEntity<List<WeatherRecordDTO>> getColdestLocations(
             @RequestParam(defaultValue = "10") int limit) {
         return ResponseEntity.ok(statisticsService.getColdestLocations(limit));
+    }
+
+    @GetMapping("/countries")
+    public ResponseEntity<List<CountryStatistics>> getCountryStatistics() {
+        return ResponseEntity.ok(statisticsService.getCountryStatistics());
     }
 }
