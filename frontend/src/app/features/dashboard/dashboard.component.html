@@ -1,0 +1,150 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>Weather Dashboard</h1>
+    <p class="subtitle">Global Weather Data Analysis</p>
+  </header>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading dashboard data...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-container">
+    <div class="error-icon">!</div>
+    <p>{{ error }}</p>
+    <button (click)="checkDataStatus()" class="btn btn-primary">Retry</button>
+  </div>
+
+  <!-- No Data State -->
+  <div *ngIf="!loading && !error && dataStatus && !dataStatus.dataLoaded" class="no-data-container">
+    <div class="no-data-icon">📊</div>
+    <h2>No Data Loaded</h2>
+    <p>Click the button below to load weather data from CSV file.</p>
+    <button (click)="loadData()" [disabled]="loadingData" class="btn btn-primary btn-large">
+      <span *ngIf="!loadingData">Load Weather Data</span>
+      <span *ngIf="loadingData">Loading... Please wait</span>
+    </button>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div *ngIf="!loading && !error && statistics" class="dashboard-content">
+    <!-- Stats Cards -->
+    <div class="stats-cards">
+      <div class="stat-card">
+        <div class="stat-icon records-icon">📋</div>
+        <div class="stat-info">
+          <span class="stat-value">{{ statistics.totalRecords | number }}</span>
+          <span class="stat-label">Total Records</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon locations-icon">📍</div>
+        <div class="stat-info">
+          <span class="stat-value">{{ statistics.totalLocations | number }}</span>
+          <span class="stat-label">Locations</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon countries-icon">🌍</div>
+        <div class="stat-info">
+          <span class="stat-value">{{ statistics.totalCountries | number }}</span>
+          <span class="stat-label">Countries</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon temp-icon">🌡️</div>
+        <div class="stat-info">
+          <span class="stat-value">{{ statistics.averageTemperature | number:'1.1-1' }}°C</span>
+          <span class="stat-label">Avg Temperature</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon humidity-icon">💧</div>
+        <div class="stat-info">
+          <span class="stat-value">{{ statistics.averageHumidity | number:'1.0-0' }}%</span>
+          <span class="stat-label">Avg Humidity</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="charts-row">
+      <div class="chart-container">
+        <h3>Weather Conditions Distribution</h3>
+        <div class="chart-wrapper">
+          <canvas baseChart
+            [chartType]="pieChartType"
+            [labels]="pieChartLabels"
+            [data]="pieChartData"
+            [colors]="pieChartColors"
+            [options]="pieChartOptions">
+          </canvas>
+        </div>
+      </div>
+      <div class="chart-container">
+        <h3>Temperature by Country</h3>
+        <div class="chart-wrapper">
+          <canvas baseChart
+            [chartType]="barChartType"
+            [labels]="barChartLabels"
+            [datasets]="barChartData"
+            [colors]="barChartColors"
+            [options]="barChartOptions">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weather Tables Row -->
+    <div class="tables-row">
+      <div class="table-container">
+        <h3>🔥 Hottest Locations</h3>
+        <table class="weather-table">
+          <thead>
+            <tr>
+              <th>Location</th>
+              <th>Country</th>
+              <th>Temperature</th>
+              <th>Condition</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let record of statistics.hottestLocations">
+              <td>{{ record.location.locationName }}</td>
+              <td>{{ record.location.country }}</td>
+              <td class="temp-cell" [ngClass]="getTemperatureClass(record.temperatureCelsius)">
+                {{ record.temperatureCelsius | number:'1.1-1' }}°C
+              </td>
+              <td>{{ record.conditionText }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-container">
+        <h3>❄️ Coldest Locations</h3>
+        <table class="weather-table">
+          <thead>
+            <tr>
+              <th>Location</th>
+              <th>Country</th>
+              <th>Temperature</th>
+              <th>Condition</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let record of statistics.coldestLocations">
+              <td>{{ record.location.locationName }}</td>
+              <td>{{ record.location.country }}</td>
+              <td class="temp-cell" [ngClass]="getTemperatureClass(record.temperatureCelsius)">
+                {{ record.temperatureCelsius | number:'1.1-1' }}°C
+              </td>
+              <td>{{ record.conditionText }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
