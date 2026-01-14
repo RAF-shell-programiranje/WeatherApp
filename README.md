@@ -271,12 +271,3 @@ docker-compose down
 | CSV data not loading | Ensure `data/` folder is copied in backend Dockerfile |
 | Port already in use | Stop local MySQL/services or change ports in docker-compose |
 
----
-
-## Bonus Challenges
-
-1. **Add a `.dockerignore`** file to exclude unnecessary files from build context
-2. **Implement health checks** for backend and frontend services
-3. **Add environment-specific configuration** using Docker Compose override files
-4. **Set up a production-ready Nginx** configuration with gzip compression and caching
-5. **Create a shell script** that waits for MySQL to be ready before starting the backend
