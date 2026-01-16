@@ -303,7 +303,3 @@ docker-compose down
 | Frontend prikazuje "Failed to load" | Proverite da li backend radi i da li nginx ispravno proksira /api |
 | CSV podaci se ne učitavaju | Osigurajte da je `data/` folder kopiran u backend Dockerfile |
 | Port je već zauzet | Zaustavite lokalni MySQL/servise ili promenite portove u docker-compose fajlu |
-
----
-
-Želite li da vam pomognem sa pisanjem rešenja za neki od ovih Dockerfile-ova?
