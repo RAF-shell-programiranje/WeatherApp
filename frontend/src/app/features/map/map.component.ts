@@ -1,7 +1,7 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import * as L from 'leaflet';
-import { StatisticsService } from '../../core/services/statistics.service';
-import { CountryStatistics } from '../../core/models/country-statistics.model';
+import {StatisticsService} from '../../core/services/statistics.service';
+import {CountryStatistics} from '../../core/models/country-statistics.model';
 
 @Component({
   selector: 'app-map',
@@ -24,7 +24,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.initMap();
+    setTimeout(() => {
+      this.initMap();
+    }, 0);
   }
 
   ngOnDestroy(): void {
@@ -40,7 +42,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     const shadowUrl = 'assets/marker-shadow.png';
 
     // Use default marker with custom settings
-    const defaultIcon = L.icon({
+    L.Marker.prototype.options.icon = L.icon({
       iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
       iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
       shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
@@ -49,7 +51,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       popupAnchor: [1, -34],
       shadowSize: [41, 41]
     });
-    L.Marker.prototype.options.icon = defaultIcon;
 
     this.map = L.map('map', {
       center: [20, 0],

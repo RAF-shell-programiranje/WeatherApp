@@ -43,8 +43,9 @@ WeatherApp/
 ### Preduslovi
 
 * Java 17+
-* Node.js 14+
+* Node.js 14+ (testiran sa Node.js 24)
 * MySQL 8.0+
+
 
 ### 1. Pokrenite MySQL i kreirajte bazu
 
@@ -305,5 +306,3 @@ docker-compose down
 | Port je već zauzet | Zaustavite lokalni MySQL/servise ili promenite portove u docker-compose fajlu |
 
 ---
-
-Želite li da vam pomognem sa pisanjem rešenja za neki od ovih Dockerfile-ova?
