@@ -305,4 +305,3 @@ docker-compose down
 | CSV podaci se ne učitavaju | Osigurajte da je `data/` folder kopiran u backend Dockerfile |
 | Port je već zauzet | Zaustavite lokalni MySQL/servise ili promenite portove u docker-compose fajlu |
 
----
